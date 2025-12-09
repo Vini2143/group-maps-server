@@ -5,17 +5,19 @@ Group Maps is a backend service that powers a geolocation-based application desi
 ---
 
 ##  Technologies Used
-- **Python** — Backend language  
-- **FastAPI** — High-performance API framework  
-- **PostgreSQL** — Relational database  
-- **Docker & Docker Compose** — Containerized development and deployment  
+- **Python 3.13.5** — Backend language  
+- **FastAPI 0.115.12** — High-performance API framework  
+- **PostgreSQL 17** — Relational database  
+- **Docker & Docker Compose** — Containerized development and deployment
+
+For reference, the specific versions of packages used in this project are listed in requirements.txt. Consult this file if you need to check or match dependency versions.
 
 ---
 
 ##  Requirements
 
 ### Prerequisites
-- Python **3.13.1**
+- Python **3.13.5**
 - Docker and Docker Compose (optional)
 
 ---
