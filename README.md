@@ -37,7 +37,7 @@ openssl rand -hex 32
 docker-compose up --build
 ```
 API:
-http://127.0.0.1:8000
+http://127.0.0.1:8000/docs
 
 
 #### Without Docker:
@@ -72,4 +72,4 @@ fastapi dev app/main.py
 ```
 
 API:
-http://127.0.0.1:8000
+http://127.0.0.1:8000/docs
