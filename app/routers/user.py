@@ -32,7 +32,7 @@ def create_user(*, db_session: SessionDep, payload: UserCreateSchema) -> Any:
             detail="This username is already in use.",
         )
     
-    user = UserModel(**payload.model_dump())
+    user = UserModel(lat=0, long=0, **payload.model_dump())
     user.password = get_password_hash(payload.password)
 
     user.save(db_session)
