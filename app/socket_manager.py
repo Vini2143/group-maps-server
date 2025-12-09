@@ -5,7 +5,7 @@ from app.core import security
 from app.models import UserModel
 from app.core.config import settings
 from app.schemas.user import UserResponseSchema
-from app.core.database import engine
+from app.core.database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
@@ -44,12 +44,16 @@ class PositionManager:
         if not user_id:
             return
         
-        with Session(engine) as db_session:
+        db_session = SessionLocal()
+        try:
             user = UserModel.first(db_session, id=user_id)
             if user:
                 user.lat = user_data.get("lat")
                 user.long = user_data.get("long")
                 user.save(db_session)
+            
+        finally:
+            db_session.close()          
 
 
     async def update_position(self, sid: str, data: dict):
@@ -102,7 +106,8 @@ manager = PositionManager(sio)
 @sio.on("connect")
 async def connect(sid, environ, auth):
     try:
-        with Session(engine) as db_session:
+        db_session = SessionLocal()
+        try:
             query = environ.get("QUERY_STRING", "")
             params = dict(p.split("=") for p in query.split("&") if "=" in p)
             token = params.get("token")
@@ -126,6 +131,10 @@ async def connect(sid, environ, auth):
             await manager.broadcast_server_data(str(group_id))
             
             print(f"User {user.username} connected to group {group_id}.")
+            
+        finally:
+            db_session.close()
+            
     except Exception as e:
         print(f"Error to connect: {e}")
         await sio.disconnect(sid)

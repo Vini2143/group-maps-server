@@ -26,7 +26,7 @@ services:
     networks:
       - app_network
     command: >
-      sh -c "alembic upgrade head && fastapi dev app/main.py --host 0.0.0.0 --port 8000"
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
 
   db:
     image: postgres:17
